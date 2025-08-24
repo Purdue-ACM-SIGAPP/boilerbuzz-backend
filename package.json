@@ -2,8 +2,8 @@
   "name": "boilerbuzz-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "eslint.config.js",
-"scripts": {
+  "main": "index.js",
+  "scripts": {
     "dev": "nodemon",
     "start": "tsc && node ./dist/index.js",
     "build": "tsc"
