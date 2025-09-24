@@ -1,8 +1,10 @@
-const dbConfig = {
+const config = {
     DB_HOST: process.env.DB_HOST,
     DB_USER: process.env.DB_USER,
     DB_PASSWORD: process.env.DB_PASSWORD,
     DB_PORT: process.env.DB_PORT,
+    DB_NAME: process.env.DB_NAME,
+    APP_PORT: process.env.APP_PORT,
 }
 
 if (process.env === undefined) {
@@ -28,5 +30,7 @@ if (process.env.DB_PASSWORD === undefined) {
 if (process.env.DB_PORT === undefined) {
     throw new Error("DB_PORT is not defined in environment variables");
 }
-
-export default dbConfig;
+if (process.env.APP_PORT === undefined) {
+    throw new Error("APP_PORT is not defined in environment variables");
+}
+export default config;
