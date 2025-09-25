@@ -1,6 +1,7 @@
 // import { db } from "@/libs/dbs";// Once db is setup, uncomment this line
 import { Request, Response } from "express";
 
+
 const getClubs = async (_req: Request, res: Response) => {
   try {
     console.log("Fetching all clubs...");
