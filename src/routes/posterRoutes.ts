@@ -1,21 +1,20 @@
 import { Router } from "express";
 import {
-  getClub,
-  getClubs,
-  addClub,
-  updateClub,
-  deleteClub,
-
-} from "@/controllers/poster/posterController";
+  getPoster,
+  getPosters,
+  addPoster,
+  updatePoster,
+  deletePoster,
+} from "@/controllers/posters/postersController";
 
 const posterRouter = Router();
 
 
-posterRouter.get("/club", getClubs);
-posterRouter.get("/club/:id", getClub);
-posterRouter.post("/club", addClub);
-posterRouter.put("/club/:id", updateClub);
-posterRouter.delete("/club/:id", deleteClub);
+posterRouter.get("/poster", getPosters);
+posterRouter.get("/poster/:id", getPoster);
+posterRouter.post("/poster", addPoster);
+posterRouter.put("/poster/:id", updatePoster);
+posterRouter.delete("/poster/:id", deletePoster);
 
 
 
