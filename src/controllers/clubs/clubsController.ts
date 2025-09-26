@@ -1,10 +1,11 @@
 // import { db } from "@/libs/dbs";// Once db is setup, uncomment this line
 import { Request, Response } from "express";
+import pool from "@/libs/db";
 
 const getClubs = async (_req: Request, res: Response) => {
   try {
-    console.log("Fetching all clubs...");
-    res.status(200).json({ message: "Fetched all clubs successfully" });
+    const data = await pool.query('SELECT * FROM club');
+    res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error fetching clubs:", err);
     res.status(500).json({
@@ -18,8 +19,8 @@ const getClubs = async (_req: Request, res: Response) => {
 
 const getClub = async (_req: Request, res: Response) => {
   try {
-    console.log("Fetching a club...");
-    res.status(200).json({ message: "Fetched the club successfully" });
+    const data = await pool.query('SELECT * FROM Club WHERE id = $1', [_req.params.id]);
+    res.status(200).json(data.rows[0]);
   } catch (err) {
     console.error("Error fetching club:", err);
     res.status(500).json({
@@ -33,7 +34,8 @@ const getClub = async (_req: Request, res: Response) => {
 
 const addClub = async (_req: Request, res: Response) => {
   try {
-
+    const data = await pool.query('INSERT INTO Club (name, description) VALUES ($1, $2) RETURNING *', [_req.body.name, _req.body.description]);
+    res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error Adding club:", err);
     res.status(500).json({
