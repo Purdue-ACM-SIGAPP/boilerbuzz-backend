@@ -1,5 +1,5 @@
 import { Pool, type ConnectionConfig } from "pg";
-import config from "./config";
+import config from "../config";
 
 const initOptions: ConnectionConfig = {
   user: config.DB_USER,
