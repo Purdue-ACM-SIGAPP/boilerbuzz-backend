@@ -1,10 +1,11 @@
 // import { db } from "@/libs/dbs";// Once db is setup, uncomment this line
 import { Request, Response } from "express";
+import pool from "@/libs/db";
 
 const getPosters = async (_req: Request, res: Response) => {
   try {
-    console.log("Fetching all posters...");
-    res.status(200).json({ message: "Fetched all posters successfully" });
+    const data = await pool.query('SELECT * FROM Posters');
+    res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error fetching posters:", err);
     res.status(500).json({
@@ -18,8 +19,8 @@ const getPosters = async (_req: Request, res: Response) => {
 
 const getPoster = async (_req: Request, res: Response) => {
   try {
-    console.log("Fetching a poster...");
-    res.status(200).json({ message: "Fetched the poster successfully" });
+    const data = await pool.query('SELECT * FROM Posters WHERE id = $1', [_req.params.id]);
+    res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error fetching poster:", err);
     res.status(500).json({
@@ -33,7 +34,8 @@ const getPoster = async (_req: Request, res: Response) => {
 
 const addPoster = async (_req: Request, res: Response) => {
   try {
-
+    const data = await pool.query('INSERT INTO Posters);
+    res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error Adding poster:", err);
     res.status(500).json({
