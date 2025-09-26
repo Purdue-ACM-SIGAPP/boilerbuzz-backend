@@ -3,13 +3,6 @@ import "module-alias/register";
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
-import dotenv from "dotenv";
-
-// remove this after pls
-import "./dbConnection";
-
-// Load environment variables first
-dotenv.config();
 
 import _config from "./config";
 import clubRouter from "@/routes/clubRoutes";

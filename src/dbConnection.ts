@@ -4,11 +4,12 @@ import config from "./config";
 const initOptions: ConnectionConfig = {
   user: config.DB_USER,
   password: config.DB_PASSWORD,
-  host: config.APP_PORT,
+  host: config.DB_HOST,
+  port: Number(config.DB_PORT),
   database: config.DB_NAME,
 };
 const pool = new Pool(initOptions);
 
-console.log("pool is connected");
+console.log("Pool is connected!");
 
 export default pool;
