@@ -23,13 +23,15 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
-    "module-alias": "^2.2.3"
+    "module-alias": "^2.2.3",
+    "pg": "^8.16.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.34.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/node": "^24.3.0",
+    "@types/pg": "^8.15.5",
     "eslint": "^9.34.0",
     "nodemon": "^3.1.10",
     "typescript": "^5.9.2"

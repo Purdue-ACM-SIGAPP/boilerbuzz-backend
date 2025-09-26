@@ -7,7 +7,7 @@ const config = {
     APP_PORT: process.env.APP_PORT,
 }
 console.log("Config:", config);
-console.log("Environment Variables:", process.env);
+
 if (process.env === undefined) {
     throw new Error("Environment variables are not defined");
 }
