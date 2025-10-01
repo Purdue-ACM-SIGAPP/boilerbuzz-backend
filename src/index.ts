@@ -8,6 +8,7 @@ import _config from "./config";
 import clubRouter from "@/routes/clubRoutes";
 import userSettingsRouter from "./routes/userSettingRoutes";
 import tagRouter from "./routes/tagsRoutes";
+import userClubRouter from "@/routes/userClubRoutes";
 
 const app = express();
 
@@ -20,6 +21,7 @@ const PORT = _config.APP_PORT || 3000;
 app.use("/api", clubRouter);
 app.use("/api", userSettingsRouter)
 app.use("/api", tagRouter)
+app.use("/api", userClubRouter);
 
 app.get("/api", (_req, res) => {
   res.status(200).json({ message: "Hello from the server!" });
