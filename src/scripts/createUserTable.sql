@@ -8,7 +8,9 @@ CREATE TYPE ClassYear as ENUM (
 
 CREATE TABLE Users (
     userid INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    name TEXT NOT NULL,
+    firstname TEXT NOT NULL,
+    middlename TEXT NOT NULL,
+    lastname TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     age SMALLINT NOT NULL CHECK (0 < age AND age < 100),
     class_year ClassYear NOT NULL,
