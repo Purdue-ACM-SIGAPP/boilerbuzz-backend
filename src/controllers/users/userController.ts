@@ -31,20 +31,12 @@ export const getUserData = async (request: Request, response: Response) => {
 export const addUser = async (request: Request, response: Response) => {
   try {
     await pool.query(
-      "INSERT INTO Poster (id, club_id, user_id, location, position, img_path) VALUES ($1, $2, $3, $4, $5, $6)",
-      [
-        request.body.id,
-        request.body.clubId,
-        request.body.userId,
-        request.body.location,
-        request.body.position,
-        request.body.imgPath,
-      ],
+      "INSERT INTO Users (userid) VALUES (DEFAULT)",
     );
 
     response.status(200);
   } catch {
-    response.status(500).json("Failed to add poster data");
+    response.status(500).json("Failed to add user data");
   }
 };
 
