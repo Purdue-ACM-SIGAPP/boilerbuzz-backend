@@ -7,15 +7,16 @@ import {
   deleteClub,
 
 } from "@/controllers/clubs/clubsController";
+import { ClerkAuthMiddleware } from "@/middleware/auth";
 
 const clubRouter = Router();
 
 
-clubRouter.get("/club", getClubs);
-clubRouter.get("/club/:id", getClub);
-clubRouter.post("/club", addClub);
-clubRouter.put("/club/:id", updateClub);
-clubRouter.delete("/club/:id", deleteClub);
+clubRouter.get("/club", ClerkAuthMiddleware, getClubs);
+clubRouter.get("/club/:id", ClerkAuthMiddleware, getClub);
+clubRouter.post("/club", ClerkAuthMiddleware, addClub);
+clubRouter.put("/club/:id", ClerkAuthMiddleware, updateClub);
+clubRouter.delete("/club/:id", ClerkAuthMiddleware, deleteClub);
 
 
 

@@ -1,9 +1,11 @@
 // import { db } from "@/libs/dbs";// Once db is setup, uncomment this line
 import { Request, Response } from "express";
 
-const getClubs = async (_req: Request, res: Response) => {
+const getClubs = async (req: Request, res: Response) => {
   try {
-    console.log("Fetching all clubs...");
+    // @ts-ignore
+    const { userId } = req.auth;
+    console.log(`User ${userId} is fetching all clubs...`);
     res.status(200).json({ message: "Fetched all clubs successfully" });
   } catch (err) {
     console.error("Error fetching clubs:", err);
@@ -16,9 +18,11 @@ const getClubs = async (_req: Request, res: Response) => {
   }
 };
 
-const getClub = async (_req: Request, res: Response) => {
+const getClub = async (req: Request, res: Response) => {
   try {
-    console.log("Fetching a club...");
+    // @ts-ignore
+    const { userId } = req.auth;
+    console.log(`User ${userId} is fetching a club...`);
     res.status(200).json({ message: "Fetched the club successfully" });
   } catch (err) {
     console.error("Error fetching club:", err);
@@ -31,9 +35,12 @@ const getClub = async (_req: Request, res: Response) => {
   }
 };
 
-const addClub = async (_req: Request, res: Response) => {
+const addClub = async (req: Request, res: Response) => {
   try {
-
+    // @ts-ignore
+    const { userId } = req.auth;
+    console.log(`User ${userId} is adding a club...`);
+    res.status(200).json({ message: "Club added successfully" });
   } catch (err) {
     console.error("Error Adding club:", err);
     res.status(500).json({
@@ -45,9 +52,12 @@ const addClub = async (_req: Request, res: Response) => {
   }
 };
 
-const updateClub = async (_req: Request, res: Response) => {
+const updateClub = async (req: Request, res: Response) => {
   try {
-
+    // @ts-ignore
+    const { userId } = req.auth;
+    console.log(`User ${userId} is updating a club...`);
+    res.status(200).json({ message: "Club updated successfully" });
   } catch (err) {
     console.error("Error updating club:", err);
     res.status(500).json({
@@ -59,9 +69,12 @@ const updateClub = async (_req: Request, res: Response) => {
   }
 };
 
-const deleteClub = async (_req: Request, res: Response) => {
+const deleteClub = async (req: Request, res: Response) => {
   try {
-
+    // @ts-ignore
+    const { userId } = req.auth;
+    console.log(`User ${userId} is deleting a club...`);
+    res.status(200).json({ message: "Club deleted successfully" });
   } catch (err) {
     console.error("Error deleting club:", err);
     res.status(500).json({

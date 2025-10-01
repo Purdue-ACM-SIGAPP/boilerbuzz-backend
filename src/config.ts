@@ -34,4 +34,6 @@ if (process.env.DB_PORT === undefined) {
 if (process.env.APP_PORT === undefined) {
     throw new Error("APP_PORT is not defined in environment variables");
 }
+
+export const CLERK_SECRET_KEY = process.env.CLERK_SECRET_KEY || "YOUR_SECRET_KEY";
 export default config;
