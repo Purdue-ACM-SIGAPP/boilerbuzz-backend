@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import pool from "../libs/db";
+import pool from "@/libs/db";
 
 export const listUsers = async (_request: Request, response: Response) => {
   try {
