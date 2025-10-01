@@ -73,6 +73,19 @@ async function testClubAPI() {
         }
     }
 
+    async function deleteClub(id: number) {
+        try {
+            const response = await fetch(`${baseURL}/club/${id}`, {
+                method: 'DELETE',
+            });
+            const data = await response.json();
+            console.log(`DELETE /club/${id}:`, data);
+            return data;
+        } catch (error) {
+            console.error(`Error deleting club ${id}:`, error);
+        }
+    }
+
     // Run tests
     console.log('Starting API tests...\n');
 
@@ -82,6 +95,7 @@ async function testClubAPI() {
     if (newClub && newClub[0]?.id) {
         await getClubById(newClub[0].id);
         await updateClub(newClub[0].id);
+        await deleteClub(newClub[0].id);
     }
 }
 

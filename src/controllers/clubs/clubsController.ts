@@ -34,7 +34,7 @@ const getClub = async (_req: Request, res: Response) => {
 
 const addClub = async (_req: Request, res: Response) => {
   try {
-    const data = await pool.query('INSERT INTO Club (name, description) VALUES ($1, $2) RETURNING *', [_req.body.name, _req.body.description]);
+    const data = await pool.query('INSERT INTO Club DEFAULT VALUES RETURNING *');
     res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error Adding club:", err);
@@ -49,8 +49,9 @@ const addClub = async (_req: Request, res: Response) => {
 
 const updateClub = async (_req: Request, res: Response) => {
   try {
-    const data = await pool.query('UPDATE Club SET name = $1, description = $2 WHERE id = $3', [_req.body.name, _req.body.description, _req.params.id]);
-    res.status(200).json(data.rows);
+    // const data = await pool.query('UPDATE Club SET name = $1, description = $2 WHERE id = $3', [_req.body.name, _req.body.description, _req.params.id]);
+    // res.status(200).json(data.rows);
+    res.status(200).json({ message: "Update club endpoint hit. Functionality to be implemented." });
   } catch (err) {
     console.error("Error updating club:", err);
     res.status(500).json({
