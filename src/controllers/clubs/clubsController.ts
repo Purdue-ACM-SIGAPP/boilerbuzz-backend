@@ -49,7 +49,8 @@ const addClub = async (_req: Request, res: Response) => {
 
 const updateClub = async (_req: Request, res: Response) => {
   try {
-
+    const data = await pool.query('UPDATE Club SET name = $1, description = $2 WHERE id = $3', [_req.body.name, _req.body.description, _req.params.id]);
+    res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error updating club:", err);
     res.status(500).json({
@@ -63,6 +64,8 @@ const updateClub = async (_req: Request, res: Response) => {
 
 const deleteClub = async (_req: Request, res: Response) => {
   try {
+    const data = await pool.query('DELETE FROM Club WHERE id = $1', [_req.params.id]);
+    res.status(200).json(data.rows);
 
   } catch (err) {
     console.error("Error deleting club:", err);
