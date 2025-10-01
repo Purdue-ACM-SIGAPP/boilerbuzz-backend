@@ -28,7 +28,7 @@ export const getUserData = async (request: Request, response: Response) => {
   }
 };
 
-export const addPoster = async (request: Request, response: Response) => {
+export const addUser = async (request: Request, response: Response) => {
   try {
     await pool.query(
       "INSERT INTO Poster (id, club_id, user_id, location, position, img_path) VALUES ($1, $2, $3, $4, $5, $6)",
