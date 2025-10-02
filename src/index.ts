@@ -6,6 +6,7 @@ import express from "express";
 
 import _config from "./config";
 import clubRouter from "@/routes/clubRoutes";
+import userClubRouter from "@/routes/userClubRoutes";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 const PORT = _config.APP_PORT || 3000;
 
 app.use("/api", clubRouter);
+app.use("/api", userClubRouter);
 
 app.get("/api", (_req, res) => {
   res.status(200).json({ message: "Hello from the server!" });
