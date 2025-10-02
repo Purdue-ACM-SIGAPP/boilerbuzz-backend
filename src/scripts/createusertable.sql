@@ -1,3 +1,0 @@
-CREATE TABLE [User] (
-    userid INT IDENTITY(1,1) PRIMARY KEY
-);
