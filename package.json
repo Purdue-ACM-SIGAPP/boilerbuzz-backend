@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/Purdue-ACM-SIGAPP/boilerbuzz-backend#readme",
   "dependencies": {
-    "@clerk/clerk-sdk-node": "^4.13.23",
+    "@clerk/express": "^1.7.35",
+    "@clerk/nextjs": "^6.33.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
