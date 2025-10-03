@@ -87,4 +87,10 @@ const deleteUserSetting = async (_req: Request, res: Response) => {
     }
 };
 
-export { getUserSettings, getUserSettingsByUserId, createUserSetting, deleteUserSetting };
+const updateUserSettings = async (_request: Request, response: Response) => {
+  // No need to do anything since there is nothing in the user settings table
+  // other than the user ID.
+  response.status(200);
+};
+
+export { getUserSettings, getUserSettingsByUserId, createUserSetting, deleteUserSetting, updateUserSettings };
