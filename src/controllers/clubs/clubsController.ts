@@ -51,7 +51,6 @@ const addClub = async (req: Request, res: Response) => {
     });
   }
 };
-
 const updateClub = async (req: Request, res: Response) => {
   try {
     // @ts-ignore

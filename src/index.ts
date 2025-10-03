@@ -18,11 +18,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(clerkMiddleware()); //added authentication middleware here
+app.use(clerkMiddleware()); //Applys auth middleware globally
 
 
 const PORT = _config.APP_PORT || 3000;
-app.get('/protected', requireAuth(), async (req, res) => {
+app.get('/protected', clerkMiddleware(), async (req, res) => {
   // Use `getAuth()` to get the user's `userId`
   const { userId } = getAuth(req)
   if (!userId) {
