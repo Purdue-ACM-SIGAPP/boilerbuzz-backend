@@ -4,7 +4,7 @@ import pool from "@/libs/db";
 
 const getPosters = async (_req: Request, res: Response) => {
   try {
-    const data = await pool.query('SELECT * FROM Posters');
+    const data = await pool.query('SELECT * FROM Poster');
     res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error fetching posters:", err);
@@ -19,7 +19,7 @@ const getPosters = async (_req: Request, res: Response) => {
 
 const getPoster = async (_req: Request, res: Response) => {
   try {
-    const data = await pool.query('SELECT * FROM Posters WHERE id = $1', [_req.params.id]);
+    const data = await pool.query('SELECT * FROM Poster WHERE id = $1', [_req.params.id]);
     res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error fetching poster:", err);
@@ -34,7 +34,7 @@ const getPoster = async (_req: Request, res: Response) => {
 
 const addPoster = async (_req: Request, res: Response) => {
   try {
-    const data = await pool.query('INSERT INTO Posters (club_id, user_id, location, position, img_path) VALUES ($1, $2, $3, $4, $5) RETURNING *', [_req.body.club_id, _req.body.user_id, _req.body.location, _req.body.position, _req.body.img_path]);
+    const data = await pool.query('INSERT INTO Poster (club_id, user_id, location, position, img_path) VALUES ($1, $2, $3, $4::point, $5) RETURNING *', [_req.body.club_id, _req.body.user_id, _req.body.location, _req.body.position, _req.body.img_path]);
     res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error Adding poster:", err);
@@ -49,7 +49,7 @@ const addPoster = async (_req: Request, res: Response) => {
 
 const updatePoster = async (_req: Request, res: Response) => {
   try {
-      const data = await pool.query('UPDATE Posters SET  club_id = $1, user_id = $2, location = $3, position = $4, img_path = $5 WHERE id = $6', [_req.body.club_id, _req.body.user_id, _req.body.location, _req.body.position, _req.body.img_path, _req.params.id]);
+      const data = await pool.query('UPDATE Poster SET  club_id = $1, user_id = $2, location = $3, position = $4::point, img_path = $5 WHERE id = $6', [_req.body.club_id, _req.body.user_id, _req.body.location, _req.body.position, _req.body.img_path, _req.params.id]);
       res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error updating poster:", err);
@@ -64,7 +64,7 @@ const updatePoster = async (_req: Request, res: Response) => {
 
 const deletePoster = async (_req: Request, res: Response) => {
   try {
-      const data = await pool.query('DELETE FROM Posters WHERE id = $1', [_req.params.id]);
+      const data = await pool.query('DELETE FROM Poster WHERE id = $1', [_req.params.id]);
       res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error deleting poster:", err);
