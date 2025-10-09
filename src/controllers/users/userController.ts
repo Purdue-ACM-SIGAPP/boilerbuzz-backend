@@ -28,7 +28,7 @@ export const getUserData = async (request: Request, response: Response) => {
   }
 };
 
-export const addUser = async (request: Request, response: Response) => {
+export const addUser = async (_request: Request, response: Response) => {
   try {
     await pool.query(
       "INSERT INTO Users (userid) VALUES (DEFAULT)",
