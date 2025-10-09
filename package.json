@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon",
     "start": "tsc && node ./dist/index.js",
-    "build": "tsc"
+    "build": "tsc",
+    "format": "prettier --write \"./src/**/*.ts\""
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,8 @@
     "@types/pg": "^8.15.5",
     "eslint": "^9.34.0",
     "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
+    "prettier-plugin-organize-imports": "^4.3.0",
     "typescript": "^5.9.2"
   },
   "nodemonConfig": {
