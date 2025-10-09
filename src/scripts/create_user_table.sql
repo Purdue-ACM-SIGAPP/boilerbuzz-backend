@@ -1,0 +1,3 @@
+CREATE TABLE appuser (
+    userid INT IDENTITY(1,1) PRIMARY KEY
+);
