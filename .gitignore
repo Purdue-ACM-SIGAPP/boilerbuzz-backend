@@ -138,4 +138,8 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
+<<<<<<< HEAD
 .DS_Store
+=======
+.DS_Store
+>>>>>>> e3a258d (addes .DS_Store)
