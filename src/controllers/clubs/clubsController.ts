@@ -2,6 +2,7 @@
 import { Request, Response } from "express";
 import pool from "@/libs/db";
 
+
 const getClubs = async (_req: Request, res: Response) => {
   try {
     const data = await pool.query('SELECT * FROM club');
