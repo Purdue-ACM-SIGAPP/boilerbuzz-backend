@@ -138,5 +138,5 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
+# macOS files
 .DS_Store
->>>>>>> e3a258d (addes .DS_Store)
