@@ -1,7 +1,6 @@
 // import { db } from "@/libs/dbs";// Once db is setup, uncomment this line
 import { Request, Response } from "express";
 
-
 const getClubs = async (_req: Request, res: Response) => {
   try {
     console.log("Fetching all clubs...");
@@ -34,7 +33,6 @@ const getClub = async (_req: Request, res: Response) => {
 
 const addClub = async (_req: Request, res: Response) => {
   try {
-
   } catch (err) {
     console.error("Error Adding club:", err);
     res.status(500).json({
@@ -48,7 +46,6 @@ const addClub = async (_req: Request, res: Response) => {
 
 const updateClub = async (_req: Request, res: Response) => {
   try {
-
   } catch (err) {
     console.error("Error updating club:", err);
     res.status(500).json({
@@ -62,7 +59,6 @@ const updateClub = async (_req: Request, res: Response) => {
 
 const deleteClub = async (_req: Request, res: Response) => {
   try {
-
   } catch (err) {
     console.error("Error deleting club:", err);
     res.status(500).json({
@@ -74,11 +70,4 @@ const deleteClub = async (_req: Request, res: Response) => {
   }
 };
 
-export {
-  getClubs,
-  getClub,
-  addClub,
-  updateClub,
-  deleteClub,
-
-};
+export { addClub, deleteClub, getClub, getClubs, updateClub };

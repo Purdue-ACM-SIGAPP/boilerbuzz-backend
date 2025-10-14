@@ -4,9 +4,9 @@ import cors from "cors";
 import "dotenv/config";
 import express from "express";
 
-import _config from "./config";
 import clubRouter from "@/routes/clubRoutes";
-import posterRouter  from "@/routes/posterRoutes";
+import posterRouter from "@/routes/posterRoutes";
+import _config from "./config";
 import userSettingsRouter from "./routes/userSettingRoutes";
 
 const app = express();
@@ -19,7 +19,7 @@ const PORT = _config.APP_PORT || 3000;
 
 app.use("/api", clubRouter);
 app.use("/api", posterRouter);
-app.use("/api", userSettingsRouter)
+app.use("/api", userSettingsRouter);
 
 app.get("/api", (_req, res) => {
   res.status(200).json({ message: "Hello from the server!" });
