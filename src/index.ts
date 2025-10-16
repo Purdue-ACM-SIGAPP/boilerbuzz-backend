@@ -10,6 +10,9 @@ import userSettingsRouter from "./routes/userSettingRoutes";
 import tagRouter from "./routes/tagsRoutes";
 import userClubRouter from "@/routes/userClubRoutes";
 
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "@/docs/swagger.json";
+
 const app = express();
 
 app.use(cors());
@@ -17,6 +20,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const PORT = _config.APP_PORT || 3000;
+
+// INFO: For swagger dev purposes
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api", clubRouter);
 app.use("/api", userSettingsRouter)
