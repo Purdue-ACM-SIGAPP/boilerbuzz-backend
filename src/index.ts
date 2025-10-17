@@ -6,6 +6,7 @@ import express from "express";
 
 import _config from "./config";
 import clubRouter from "@/routes/clubRoutes";
+import userClubRouter from "@/routes/userClubRoutes";
 import userSettingsRouter from "./routes/userSettingRoutes";
 
 import swaggerUi from "swagger-ui-express";
@@ -23,6 +24,7 @@ const PORT = _config.APP_PORT || 3000;
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api", clubRouter);
+app.use("/api", userClubRouter);
 app.use("/api", userSettingsRouter)
 
 app.get("/api", (_req, res) => {
