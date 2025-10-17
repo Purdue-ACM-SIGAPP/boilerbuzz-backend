@@ -79,11 +79,4 @@ const deleteClub = async (_req: Request, res: Response) => {
   }
 };
 
-export {
-  getClubs,
-  getClub,
-  addClub,
-  updateClub,
-  deleteClub,
-
-};
+export { addClub, deleteClub, getClub, getClubs, updateClub };

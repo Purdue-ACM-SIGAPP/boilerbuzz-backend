@@ -30,9 +30,7 @@ export const getUserData = async (request: Request, response: Response) => {
 
 export const addUser = async (_request: Request, response: Response) => {
   try {
-    await pool.query(
-      "INSERT INTO Users (userid) VALUES (DEFAULT)",
-    );
+    await pool.query("INSERT INTO Users (userid) VALUES (DEFAULT)");
 
     response.status(200);
   } catch {
@@ -40,7 +38,10 @@ export const addUser = async (_request: Request, response: Response) => {
   }
 };
 
-export const updateUserSettings = async (_request: Request, response: Response) => {
+export const updateUserSettings = async (
+  _request: Request,
+  response: Response,
+) => {
   // No need to do anything since there is nothing in the user settings table
   // other than the user ID.
   response.status(200);
