@@ -1,0 +1,1 @@
+ALTER TABLE IF EXISTS Club ADD COLUMN member_post_permissions BOOLEAN DEFAULT TRUE;
