@@ -7,6 +7,7 @@ import express from "express";
 import _config from "./config";
 import clubRouter from "@/routes/clubRoutes";
 import userSettingsRouter from "./routes/userSettingRoutes";
+import posterRouter from "./routes/posterRoutes";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 const PORT = _config.APP_PORT || 3000;
 
 app.use("/api", clubRouter);
+app.use("/api", posterRouter);
 app.use("/api", userSettingsRouter)
 
 app.get("/api", (_req, res) => {
