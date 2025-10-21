@@ -39,4 +39,6 @@ async function queryPostersByTags(search_tag: string, page_index: number, page_l
     return posters;
 }
 
-console.log(queryPostersByTags("Example", 0, 10));
+export {
+    queryPostersByTags
+}
