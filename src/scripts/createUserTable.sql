@@ -6,15 +6,11 @@ CREATE TYPE ClassYear as ENUM (
     'graduate'
 );
 
-CREATE TABLE Users (
+CREATE TABLE AppUser (
     userid INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    firstname TEXT NOT NULL,
-    middlename TEXT NOT NULL,
-    lastname TEXT NOT NULL,
+    username TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     age SMALLINT NOT NULL CHECK (0 < age AND age < 100),
     class_year ClassYear NOT NULL,
-    major TEXT NOT NULL,
-    password_hash TEXT NOT NULL,
-    password_salt TEXT NOT NULL
+    major TEXT NOT NULL
 );
