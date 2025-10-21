@@ -38,4 +38,6 @@ if (process.env.APP_PORT === undefined) {
 }
 
 export const CLERK_SECRET_KEY = process.env.CLERK_SECRET_KEY || "YOUR_SECRET_KEY";
+export const CLERK_PUBLISHABLE_KEY = process.env.CLERK_PUBLISHABLE_KEY || "YOUR_SECRET_KEY";
+
 export default config;
