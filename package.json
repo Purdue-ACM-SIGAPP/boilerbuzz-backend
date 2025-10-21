@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "nodemon",
     "start": "tsc && node ./dist/index.js",
-    "build": "tsc"
+    "build": "tsc",
+    "format": "prettier --write \"./src/**/*.ts\"",
+    "swagger": "node ./src/docs/swagger.ts"
   },
   "repository": {
     "type": "git",
@@ -26,7 +28,9 @@
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "module-alias": "^2.2.3",
-    "pg": "^8.16.3"
+    "pg": "^8.16.3",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.34.0",
@@ -34,8 +38,11 @@
     "@types/express": "^5.0.3",
     "@types/node": "^24.6.1",
     "@types/pg": "^8.15.5",
+    "@types/swagger-ui-express": "^4.1.8",
     "eslint": "^9.34.0",
     "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
+    "prettier-plugin-organize-imports": "^4.3.0",
     "typescript": "^5.9.2"
   },
   "nodemonConfig": {
