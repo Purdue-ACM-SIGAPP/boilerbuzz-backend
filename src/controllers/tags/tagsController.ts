@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 
 import pool from "@/libs/db";
 
-const getTags = async (_req: Request, res: Response) => {
+const getTags = async (req: Request, res: Response) => {
   try {
     const data = await pool.query('SELECT * FROM Tags');
     res.status(200).json(data.rows);
@@ -18,9 +18,9 @@ const getTags = async (_req: Request, res: Response) => {
   }
 };
 
-const getTag = async (_req: Request, res: Response) => {
+const getTag = async (req: Request, res: Response) => {
   try {
-    const data = await pool.query('SELECT * FROM Tags WHERE id = $1', [_req.params.id]);
+    const data = await pool.query('SELECT * FROM Tags WHERE id = $1', [req.params.id]);
     res.status(200).json(data.rows[0]);
   } catch (err) {
     console.error("Error fetching Tag:", err);
@@ -33,9 +33,9 @@ const getTag = async (_req: Request, res: Response) => {
   }
 };
 
-const addTag = async (_req: Request, res: Response) => {
+const addTag = async (req: Request, res: Response) => {
   try {
-    const data = await pool.query('INSERT INTO Tags (tag_name) VALUES ($1) RETURNING *', [_req.body.tag_name]);
+    const data = await pool.query('INSERT INTO Tags (tag_name) VALUES ($1) RETURNING *', [req.body.tag_name]);
     res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error Adding Tag:", err);
@@ -48,9 +48,9 @@ const addTag = async (_req: Request, res: Response) => {
   }
 };
 
-const updateTag = async (_req: Request, res: Response) => {
+const updateTag = async (req: Request, res: Response) => {
   try {
-    const data = await pool.query('UPDATE Tags SET tag_name = $1 WHERE id = $2', [_req.body.tag_name, _req.params.id]);
+    const data = await pool.query('UPDATE Tags SET tag_name = $1 WHERE id = $2', [req.body.tag_name, req.params.id]);
     res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error updating Tag:", err);
@@ -63,9 +63,9 @@ const updateTag = async (_req: Request, res: Response) => {
   }
 };
 
-const deleteTag = async (_req: Request, res: Response) => {
+const deleteTag = async (req: Request, res: Response) => {
   try {
-    const data = await pool.query('DELETE FROM Tags WHERE id = $1', [_req.params.id]);
+    const data = await pool.query('DELETE FROM Tags WHERE id = $1', [req.params.id]);
     res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error deleting Tag:", err);
@@ -78,23 +78,23 @@ const deleteTag = async (_req: Request, res: Response) => {
   }
 };
 
-const tagPoster = async (_req: Request, res: Response) => {
+const tagPoster = async (req: Request, res: Response) => {
   try {
     //check if the tag and poster exist
-    const tagCheck = await pool.query('SELECT * FROM Tags WHERE id = $1', [_req.params.tagId]);
-    const posterCheck = await pool.query('SELECT * FROM Poster WHERE id = $1', [_req.params.posterId]);
+    const tagCheck = await pool.query('SELECT * FROM Tags WHERE id = $1', [req.params.tagId]);
+    const posterCheck = await pool.query('SELECT * FROM Poster WHERE id = $1', [req.params.posterId]);
     if (tagCheck.rows.length === 0)
       return res.status(404).json({ error: "Tag not found" });
     if (posterCheck.rows.length === 0)
       return res.status(404).json({ error: "Poster not found" });
 
     //check if the tag is already associated with the poster
-    const associationCheck = await pool.query('SELECT * FROM PosterTag WHERE tag_id = $1 AND poster_id = $2', [_req.params.tagId, _req.params.posterId]);
+    const associationCheck = await pool.query('SELECT * FROM PosterTag WHERE tag_id = $1 AND poster_id = $2', [req.params.tagId, req.params.posterId]);
     if (associationCheck.rows.length > 0)
       return res.status(400).json({ error: "Tag is already associated with the Poster" });
 
     //associate the tag with the poster
-    const data = await pool.query('INSERT INTO postertag (tag_id, poster_id) VALUES ($1, $2) RETURNING *', [_req.params.tagId, _req.params.posterId]);
+    const data = await pool.query('INSERT INTO postertag (tag_id, poster_id) VALUES ($1, $2) RETURNING *', [req.params.tagId, req.params.posterId]);
     return res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error tagging Poster:", err);
@@ -107,23 +107,23 @@ const tagPoster = async (_req: Request, res: Response) => {
   }
 };
 
-const untagPoster = async (_req: Request, res: Response) => {
+const untagPoster = async (req: Request, res: Response) => {
   try {
     //check if the tag and poster exist
-    const tagCheck = await pool.query('SELECT * FROM Tags WHERE id = $1', [_req.params.tagId]);
-    const posterCheck = await pool.query('SELECT * FROM Poster WHERE id = $1', [_req.params.posterId]);
+    const tagCheck = await pool.query('SELECT * FROM Tags WHERE id = $1', [req.params.tagId]);
+    const posterCheck = await pool.query('SELECT * FROM Poster WHERE id = $1', [req.params.posterId]);
     if (tagCheck.rows.length === 0)
       return res.status(404).json({ error: "Tag not found" });
     if (posterCheck.rows.length === 0)
       return res.status(404).json({ error: "Poster not found" });
 
     //check if the tag is actually associated with the poster
-    const associationCheck = await pool.query('SELECT * FROM PosterTag WHERE tag_id = $1 AND poster_id = $2', [_req.params.tagId, _req.params.posterId]);
+    const associationCheck = await pool.query('SELECT * FROM PosterTag WHERE tag_id = $1 AND poster_id = $2', [req.params.tagId, req.params.posterId]);
     if (associationCheck.rows.length === 0)
       return res.status(400).json({ error: "Tag is not associated with the Poster" });
 
     //remove the association between the tag and the poster
-    const data = await pool.query('DELETE FROM postertag WHERE tag_id = $1 AND poster_id = $2', [_req.params.tagId, _req.params.posterId]);
+    const data = await pool.query('DELETE FROM postertag WHERE tag_id = $1 AND poster_id = $2', [req.params.tagId, req.params.posterId]);
     return res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error untagging Poster:", err);
