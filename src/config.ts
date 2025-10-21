@@ -5,6 +5,8 @@ const config = {
     DB_PORT: process.env.DB_PORT,
     DB_NAME: process.env.DB_NAME,
     APP_PORT: process.env.APP_PORT,
+    CLERK_SECRET_KEY : process.env.CLERK_SECRET_KEY,
+    CLERK_PUBLISHABLE_KEY : process.env.CLERK_PUBLISHABLE_KEY,
 }
 console.log("Config:", config);
 

@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 const getClubs = async (req: Request, res: Response) => {
   try {
     // @ts-ignore
-    const { userId } = req.auth;
+    const { userId } = req.auth();
     console.log(`User ${userId} is fetching all clubs...`);
     res.status(200).json({ message: "Fetched all clubs successfully" });
   } catch (err) {
