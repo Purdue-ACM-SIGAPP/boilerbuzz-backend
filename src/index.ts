@@ -8,6 +8,7 @@ import _config from "./config";
 import clubRouter from "@/routes/clubRoutes";
 import userClubRouter from "@/routes/userClubRoutes";
 import userSettingsRouter from "./routes/userSettingRoutes";
+import tagRouter from "./routes/tagsRoutes";
 
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "@/docs/swagger.json";
@@ -26,6 +27,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api", clubRouter);
 app.use("/api", userClubRouter);
 app.use("/api", userSettingsRouter)
+app.use("/api", tagRouter);
 
 app.get("/api", (_req, res) => {
   res.status(200).json({ message: "Hello from the server!" });
