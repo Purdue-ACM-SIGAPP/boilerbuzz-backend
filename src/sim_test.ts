@@ -7,13 +7,15 @@ async function queryPostersByTags(search_tag: string, page_index: number, page_l
     const SIM_THRESHOLD = 75;
     let similar_tags: string[] = [];
     let similar_tag_ids: number[] = [];
-    tagsData.rows.forEach((tag: { tag_name: string, tag_id: number }) => {
+    tagsData.rows.forEach((tag: { tag_name: string, id: number }) => {
         const sim = getSimilarity(search_tag, tag.tag_name);
         if (sim >= SIM_THRESHOLD) {
             similar_tags.push(tag.tag_name);
-            similar_tag_ids.push(tag.tag_id);
+            similar_tag_ids.push(tag.id);
         }
     });
+    console.log("Similar tags found:", similar_tags);
+    console.log("Similar tag IDs found:", similar_tag_ids);
     if (similar_tags.length === 0) {
         return { posters: [], total_count: 0 };
     }
@@ -24,7 +26,9 @@ async function queryPostersByTags(search_tag: string, page_index: number, page_l
         [similar_tag_ids, page_length, page_index * page_length]
     );
     let posterIds = posterIdsData.rows.map((row: { poster_id: number }) => row.poster_id);
+    console.log("Poster IDs found for similar tags:", posterIds);
     if (posterIds.length === 0) {
+        console.log("No posters found for similar tags");
         return { posters: [], total_count: 0 };
     }
     let postersData = await pool.query(
