@@ -11,7 +11,7 @@ import userSettingsRouter from "./routes/userSettingRoutes";
 
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "@/docs/swagger.json";
-
+import { clerkMiddleware } from "@clerk/express";
 const app = express();
 
 app.use(cors());
@@ -20,20 +20,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(clerkMiddleware({ secretKey: _config.CLERK_SECRET_KEY }));
 
 const PORT = _config.APP_PORT || 3000;
-
-// INFO: For swagger dev purposes
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-app.use("/api", clubRouter);
-app.use("/api", userClubRouter);
-app.use("/api", userSettingsRouter)
-
 app.get("/api", (_req, res) => {// Test route
   res.status(200).json({ message: "Hello from the server,public endpoint " });
 });
+// INFO: For swagger dev purposes
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// validate Clerk auth for all routes under /api then pass to clubRouter
-app.use('/api', requireAuth(),  clubRouter)
+app.use("/api", clerkMiddleware(), clubRouter);
+app.use("/api", clerkMiddleware(), userClubRouter);
+app.use("/api", clerkMiddleware(),  userSettingsRouter)
+
+
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
