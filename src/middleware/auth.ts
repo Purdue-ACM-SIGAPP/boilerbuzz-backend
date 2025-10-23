@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { getAuth } from "@clerk/express";
 
-const requireAuth = (req: Request, res: Response, next: NextFunction) => {
+const requireAuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const auth = getAuth(req);
 
     if (!auth.userId) {
@@ -17,5 +17,5 @@ const requireAuth = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export {
-    requireAuth,
+    requireAuthMiddleware,
 }
