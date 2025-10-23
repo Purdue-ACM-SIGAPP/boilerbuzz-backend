@@ -11,7 +11,7 @@ import userSettingsRouter from "./routes/userSettingRoutes";
 
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "@/docs/swagger.json";
-import { clerkMiddleware } from "@clerk/express";
+import { clerkMiddleware, getAuth, clerkClient } from "@clerk/express";
 const app = express();
 
 app.use(cors());
@@ -24,7 +24,7 @@ const PORT = _config.APP_PORT || 3000;
 // INFO: For swagger dev purposes
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.get('/protected', clerkMiddleware(), async (req, res) => {
+app.get('/protected', async (req, res) => {
   // Use `getAuth()` to get the user's `userId`
   const { userId } = getAuth(req);
   if (!userId) {
@@ -37,19 +37,13 @@ app.get('/protected', clerkMiddleware(), async (req, res) => {
   return res.json({ user })
 });
 
-app.use("/api", clubRouter);
-app.use("/api", userClubRouter);
-app.use("/api", userSettingsRouter)
-
 app.get("/api", (_req, res) => {// Test route
   res.status(200).json({ message: "Hello from the server,public endpoint " });
 });
-// INFO: For swagger dev purposes
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use("/api", clerkMiddleware(), clubRouter);
-app.use("/api", clerkMiddleware(), userClubRouter);
-app.use("/api", clerkMiddleware(),  userSettingsRouter)
+app.use("/api", clubRouter);
+app.use("/api", userClubRouter);
+app.use("/api", userSettingsRouter)
 
 
 

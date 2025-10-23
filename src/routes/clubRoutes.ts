@@ -10,7 +10,6 @@ import {
 
 const clubRouter = Router();
 
-
 clubRouter.get("/club", getClubs);
 clubRouter.get("/club/:id", getClub);
 clubRouter.post("/club", addClub);

@@ -2,10 +2,9 @@
 import { Request, Response } from "express";
 import pool from "@/libs/db";
 
-const getClubs = async (req: Request, res: Response) => {
+const getClubs = async (_req: Request, res: Response) => {
   try {
     const data = await pool.query('SELECT * FROM club');
-     req.read();
     res.status(200).json(data.rows);
   } catch (err) {
     console.error("Error fetching clubs:", err);
@@ -85,5 +84,4 @@ export {
   addClub,
   updateClub,
   deleteClub,
-
 };
