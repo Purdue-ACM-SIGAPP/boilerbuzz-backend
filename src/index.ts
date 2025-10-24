@@ -11,7 +11,7 @@ import userSettingsRouter from "./routes/userSettingRoutes";
 
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "@/docs/swagger.json";
-import { clerkMiddleware, getAuth, clerkClient } from "@clerk/express";
+import { clerkMiddleware } from "@clerk/express";
 import { requireAuthMiddleware } from "./middleware/auth";
 const app = express();
 
