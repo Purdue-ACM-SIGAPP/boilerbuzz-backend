@@ -6,6 +6,7 @@ import {
   getUserData,
   listUsers,
   updateUserSettings,
+  queryPostersByTags
 } from "../controllers/users/userController";
 
 const router = Router();
@@ -16,3 +17,4 @@ router.get("/user/:id", getUserData);
 router.post("/user", addUser);
 router.post("/user/:id", updateUserSettings);
 router.delete("/user/:id", deleteUserData);
+
