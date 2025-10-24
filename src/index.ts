@@ -9,7 +9,6 @@ import posterRouter from "@/routes/posterRoutes";
 import _config from "./config";
 import userClubRouter from "@/routes/userClubRoutes";
 import userSettingsRouter from "./routes/userSettingRoutes";
-import posterRouter from "./routes/posterRoutes";
 
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "@/docs/swagger.json";
