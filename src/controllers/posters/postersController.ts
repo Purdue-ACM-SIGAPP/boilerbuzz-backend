@@ -2,6 +2,19 @@
 import { Request, Response } from "express";
 import pool from "@/libs/db.js";
 
+export async function remoteImageUrlToBase64(url: string): Promise<{ dataUrl: string, mime: string, base64: string }> {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Failed to fetch image: ${res.status} ${res.statusText}`);
+
+    const mime = res.headers.get('content-type') || 'application/octet-stream';
+    const arrayBuffer = await res.arrayBuffer();                // Uint8Array-compatible
+    const buffer = Buffer.from(arrayBuffer);
+    const base64 = buffer.toString('base64');
+    const dataUrl = `data:${mime};base64,${base64}`;
+
+    return { dataUrl, mime, base64 };
+}
+
 const getPosterImage = async (req: Request, res: Response) => {
     try {
         console.log("Fetching poster image...");
@@ -19,7 +32,10 @@ const getPosterImage = async (req: Request, res: Response) => {
         }
 
         const img_path = result.rows[0].img_path;
-        return res.status(200).json({ img_path });
+
+        const { dataUrl } = await remoteImageUrlToBase64(img_path);
+
+        return res.status(200).json({ data_url: dataUrl });
     } catch (err) {
         console.error("Error fetching poster image:", err);
         return res.status(500).json({
