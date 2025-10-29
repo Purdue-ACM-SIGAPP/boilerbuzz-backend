@@ -38,13 +38,14 @@ const getPoster = async (_req: Request, res: Response) => {
 const addPoster = async (_req: Request, res: Response) => {
   try {
     const data = await pool.query(
-      "INSERT INTO Poster (club_id, user_id, location, position, img_path) VALUES ($1, $2, $3, $4::point, $5) RETURNING *",
+      "INSERT INTO Poster (club_id, user_id, location, position, img_path, date) VALUES ($1, $2, $3, $4::point, $5, $6) RETURNING *",
       [
         _req.body.club_id,
         _req.body.user_id,
         _req.body.location,
         _req.body.position,
         _req.body.img_path,
+        _req.body.date
       ],
     );
     res.status(200).json(data.rows);
@@ -62,13 +63,14 @@ const addPoster = async (_req: Request, res: Response) => {
 const updatePoster = async (_req: Request, res: Response) => {
   try {
     const data = await pool.query(
-      "UPDATE Poster SET  club_id = $1, user_id = $2, location = $3, position = $4::point, img_path = $5 WHERE id = $6",
+      "UPDATE Poster SET  club_id = $1, user_id = $2, location = $3, position = $4::point, img_path = $5, date = $6 WHERE id = $7",
       [
         _req.body.club_id,
         _req.body.user_id,
         _req.body.location,
         _req.body.position,
         _req.body.img_path,
+        _req.body.date,
         _req.params.id,
       ],
     );
@@ -101,7 +103,7 @@ const deletePoster = async (_req: Request, res: Response) => {
   }
 };
 
-async function queryPostersByTags(search_tag: string, page_index: number, page_length: number) {
+async function queryPostersByTags(search_tag: string, page_index: number, page_length: number, date?: string ) {
     const tagsData = await pool.query('SELECT id, tag_name FROM tags');
     const SIM_THRESHOLD = 75;
     const similar_tags: string[] = [];
@@ -144,10 +146,17 @@ async function queryPostersByTags(search_tag: string, page_index: number, page_l
         return { posters: [], total_count };
     }
     
-    const postersData = await pool.query(
-        `SELECT * FROM Poster WHERE id = ANY($1) ORDER BY id`,
-        [posterIds]
-    );
+    let query = `SELECT * FROM Poster WHERE id = ANY($1)`;
+    let params: (number[] | string)[] = [posterIds];
+
+    if (date) {
+      query += ` AND date = $2`;
+      params.push(date);
+    }
+
+    query += ` ORDER BY id`;
+
+    const postersData = await pool.query(query, params);
 
     const posters = postersData.rows;
 
@@ -156,7 +165,7 @@ async function queryPostersByTags(search_tag: string, page_index: number, page_l
 
 export const searchPosters = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { search_tag, page_index = 0, page_length = 10 } = req.body;
+        const { search_tag, page_index = 0, page_length = 10, date } = req.body;
 
         if (!search_tag || typeof search_tag !== 'string') {
             res.status(400).json({ error: "search_tag must be a non-empty string" });
@@ -195,7 +204,15 @@ export const searchPosters = async (req: Request, res: Response): Promise<void> 
             return;
         }
 
-        const result = await queryPostersByTags(search_tag, pageIndex, pageLength);
+        if (date) {
+          const eventDate = new Date(date);
+          if (isNaN(eventDate.getTime())) {
+          res.status(400).json({ error: "date must be a valid date" });
+          return;
+    }
+}
+
+        const result = await queryPostersByTags(search_tag, pageIndex, pageLength, date);
 
         res.status(200).json(result);
         return;
