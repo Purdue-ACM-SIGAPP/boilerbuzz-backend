@@ -1,50 +1,73 @@
 
 import { Request, Response } from "express";
 import pool from "@/libs/db.js";
+import fs from "fs";
+import path from "path";
 
-export async function remoteImageUrlToBase64(url: string): Promise<{ dataUrl: string, mime: string, base64: string }> {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`Failed to fetch image: ${res.status} ${res.statusText}`);
-
-    const mime = res.headers.get('content-type') || 'application/octet-stream';
-    const arrayBuffer = await res.arrayBuffer();                // Uint8Array-compatible
-    const buffer = Buffer.from(arrayBuffer);
-    const base64 = buffer.toString('base64');
-    const dataUrl = `data:${mime};base64,${base64}`;
-
-    return { dataUrl, mime, base64 };
+function extToMime(ext: string) {
+  ext = ext.toLowerCase();
+  if (ext === ".jpg" || ext === ".jpeg") return "image/jpeg";
+  else if (ext === ".png") return "image/png";
+  else if (ext === ".gif") return "image/gif";
+  else if (ext === ".webp") return "image/webp";
+  return "application/octet-stream";
 }
 
 const getPosterImage = async (req: Request, res: Response) => {
-    try {
-        console.log("Fetching poster image...");
-        const posterId = req.params.id;
+  try {
+    console.log("Fetching poster image (local-only)...");
 
-        const query = "SELECT img_path FROM poster WHERE id = $1";
-        const values = [posterId];
-
-        const result = await pool.query(query, values);
-        if (result.rows.length === 0) {
-            return res.status(404).json({
-                error: "Poster not found",
-                details: `No poster found with id ${posterId}`,
-            });
-        }
-
-        const img_path = result.rows[0].img_path;
-
-        const { dataUrl } = await remoteImageUrlToBase64(img_path);
-
-        return res.status(200).json({ data_url: dataUrl });
-    } catch (err) {
-        console.error("Error fetching poster image:", err);
-        return res.status(500).json({
-            error: "Failed to fetch poster image",
-            details:
-                "There was an internal server error while retrieving the poster image. Please try again later.",
-            technical_error: err instanceof Error ? err.message : String(err),
-        });
+    const idParam = req.params.id;
+    const posterId = Number(idParam);
+    if (!idParam || Number.isNaN(posterId) || posterId <= 0) {
+      return res.status(400).json({ error: "Invalid poster id" });
     }
+
+    const query = "SELECT img_path FROM Poster WHERE id = $1";
+    const values = [posterId];
+
+    const result = await pool.query(query, values);
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        error: "Poster not found",
+        details: `No poster found with id ${posterId}`,
+      });
+    }
+
+    var imgPath: string = result.rows[0].img_path;
+
+    if (!imgPath) {
+      return res.status(404).json({ error: "Poster has no image path" });
+    }
+
+    const absolutePath = path.isAbsolute(imgPath)
+      ? imgPath
+      : path.resolve(process.cwd(), imgPath);
+
+    const buffer = await fs.promises.readFile(absolutePath);
+    const mime = extToMime(path.extname(absolutePath));
+
+    const format = req.query.format === "base64" ? "base64" : "binary";
+    if (format === "base64") {
+      const base64 = buffer.toString("base64");
+      const dataUrl = `data:${mime};base64,${base64}`;
+      return res.status(200).json({ dataUrl, mime, base64 });
+    }
+
+    res.setHeader("Content-Type", mime);
+    return res.status(200).send(buffer);
+  } catch (err) {
+    console.error("Error fetching poster image:", err);
+    if (err && (err as NodeJS.ErrnoException).code === "ENOENT") {
+      return res.status(404).json({ error: "Image file not found on disk" });
+    }
+    return res.status(500).json({
+      error: "Failed to fetch poster image",
+      details:
+        "There was an internal server error while retrieving the poster image. Please try again later.",
+      technical_error: err instanceof Error ? err.message : String(err),
+    });
+  }
 };
 
 const getPosters = async (_req: Request, res: Response) => {
