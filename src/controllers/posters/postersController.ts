@@ -163,64 +163,81 @@ async function queryPostersByTags(search_tag: string, page_index: number, page_l
     return { posters, total_count };
 }
 
-export const searchPosters = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const { search_tag, page_index = 0, page_length = 10, date } = req.body;
+import { Request, Response } from "express";
+import pool from "@/libs/db";
 
-        if (!search_tag || typeof search_tag !== 'string') {
-            res.status(400).json({ error: "search_tag must be a non-empty string" });
-            return;
-        }
+export const searchPosters = async (req: Request, res: Response) => {
+  try {
+    const { search_tag, date, page_index = 0, page_length = 10 } = req.body;
 
-        if (search_tag.trim() === '') {
-            res.status(400).json({ error: "search_tag cannot be empty" });
-            return;
-        }
-
-        const pageIndex = Number(page_index);
-        if (isNaN(pageIndex) || !Number.isInteger(pageIndex)) {
-            res.status(400).json({ error: "page_index must be an integer" });
-            return;
-        }
-
-        if (pageIndex < 0) {
-            res.status(400).json({ error: "page_index must be non-negative" });
-            return;
-        }
-
-        const pageLength = Number(page_length);
-        if (isNaN(pageLength) || !Number.isInteger(pageLength)) {
-            res.status(400).json({ error: "page_length must be an integer" });
-            return;
-        }
-
-        if (pageLength <= 0) {
-            res.status(400).json({ error: "page_length must be greater than 0" });
-            return;
-        }
-
-        if (pageLength > 100) {
-            res.status(400).json({ error: "page_length cannot exceed 100" });
-            return;
-        }
-
-        if (date) {
-          const eventDate = new Date(date);
-          if (isNaN(eventDate.getTime())) {
-          res.status(400).json({ error: "date must be a valid date" });
-          return;
+    if (date && isNaN(Date.parse(date))) {
+      return res.status(400).json({ error: "date must be a valid date" });
     }
-}
 
-        const result = await queryPostersByTags(search_tag, pageIndex, pageLength, date);
+    let query = `
+      SELECT * FROM Poster
+      WHERE 1=1
+    `;
+    const values: any[] = [];
+    let count = 0;
 
-        res.status(200).json(result);
-        return;
-    } catch (error) {
-        console.error("Error searching posters:", error);
-        res.status(500).json({ error: "Internal server error" });
-        return;
+    if (search_tag) {
+      count++;
+      query += ` AND id IN (
+        SELECT poster_id FROM PosterTag pt
+        JOIN Tag t ON pt.tag_id = t.id
+        WHERE LOWER(t.name) LIKE LOWER($${count})
+      )`;
+      values.push(`%${search_tag}%`);
     }
+
+    if (date) {
+      count++;
+      query += ` AND DATE(date) = DATE($${count})`;
+      values.push(date);
+    }
+
+    count++;
+    query += ` ORDER BY id DESC LIMIT $${count}`;
+    values.push(page_length);
+
+    count++;
+    query += ` OFFSET $${count}`;
+    values.push(page_index * page_length);
+
+    const posters = (await pool.query(query, values)).rows;
+
+    let countQuery = "SELECT COUNT(*) FROM Poster WHERE 1=1";
+    const countValues: any[] = [];
+    let countParam = 0;
+
+    if (search_tag) {
+      countParam++;
+      countQuery += ` AND id IN (
+        SELECT poster_id FROM PosterTag pt
+        JOIN Tag t ON pt.tag_id = t.id
+        WHERE LOWER(t.name) LIKE LOWER($${countParam})
+      )`;
+      countValues.push(`%${search_tag}%`);
+    }
+
+    if (date) {
+      countParam++;
+      countQuery += ` AND DATE(date) = DATE($${countParam})`;
+      countValues.push(date);
+    }
+
+    const totalCount = await pool.query(countQuery, countValues);
+
+    return res.status(200).json({
+      posters,
+      total_count: parseInt(totalCount.rows[0].count, 10),
+    });
+
+  } catch (err) {
+    console.error("Error in searchPosters:", err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 export { addPoster, deletePoster, getPoster, getPosters, updatePoster };
