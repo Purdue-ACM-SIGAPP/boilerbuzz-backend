@@ -163,9 +163,6 @@ async function queryPostersByTags(search_tag: string, page_index: number, page_l
     return { posters, total_count };
 }
 
-import { Request, Response } from "express";
-import pool from "@/libs/db";
-
 export const searchPosters = async (req: Request, res: Response) => {
   try {
     const { search_tag, date, page_index = 0, page_length = 10 } = req.body;
