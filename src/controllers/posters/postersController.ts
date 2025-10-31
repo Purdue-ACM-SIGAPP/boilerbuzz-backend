@@ -1,4 +1,3 @@
-// import { db } from "@/libs/dbs";// Once db is setup, uncomment this line
 import pool from "@/libs/db";
 import { Request, Response } from "express";
 const { getSimilarity } = require('calculate-string-similarity');
