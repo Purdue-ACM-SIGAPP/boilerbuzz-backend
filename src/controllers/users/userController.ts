@@ -101,3 +101,4 @@ async function queryPostersByTags(search_tag: string, page_index: number, page_l
 
   return posters;
 }
+

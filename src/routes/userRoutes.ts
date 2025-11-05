@@ -17,4 +17,3 @@ router.get("/user/:id", getUserData);
 router.post("/user", addUser);
 router.post("/user/:id", updateUserSettings);
 router.delete("/user/:id", deleteUserData);
-
