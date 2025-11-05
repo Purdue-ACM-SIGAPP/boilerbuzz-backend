@@ -13,6 +13,7 @@ import userRouter from "./routes/userRoutes";
 
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "@/docs/swagger.json";
+import userPosterLikeRouter from "./routes/userPosterLikeRoutes";
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use("/api", posterRouter);
 app.use("/api", userSettingsRouter);
 app.use("/api", userClubRouter);
 app.use("/api", userSettingsRouter)
+app.use("/api", userPosterLikeRouter)
 
 app.get("/api", (_req, res) => {
   res.status(200).json({ message: "Hello from the server!" });
