@@ -53,4 +53,25 @@ const addPosterLike = async (_req: Request, res: Response) => {
     }
 };
 
-export { getNumPosterLikes, getPostersLikedByUser, addPosterLike };
+const deletePosterLike = async (_req: Request, res: Response) => {
+    try {
+        const { user_id, poster_id } = _req.params;
+        if (!user_id || !poster_id) {
+            return res.status(400).json({ error: "Missing user_id or poster_id in params" });
+        }
+
+        const query = "DELETE FROM user_poster_like WHERE user_id = ($1) AND poster_id = ($2)";
+        const result = await pool.query(query, [user_id, poster_id]);
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: "Like not found" });
+        }
+
+        return res.status(200).json({ data: result.rows[0] });
+    } catch (err: any) {
+        console.error("Error deleting poster like:", err);
+        return res.status(500).json({ error: "Failed to delete poster like" });
+    }
+};
+
+export { getNumPosterLikes, getPostersLikedByUser, addPosterLike, deletePosterLike };
