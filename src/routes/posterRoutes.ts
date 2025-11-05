@@ -1,3 +1,4 @@
+
 import {
   addPoster,
   deletePoster,
@@ -5,6 +6,7 @@ import {
   getPosters,
   updatePoster,
   searchPosters,
+  getPosterImage
 } from "@/controllers/posters/postersController";
 import { Router } from "express";
 
@@ -16,5 +18,6 @@ posterRouter.post("/poster", addPoster);
 posterRouter.put("/poster/:id", updatePoster);
 posterRouter.delete("/poster/:id", deletePoster);
 posterRouter.post("/posters/search", searchPosters);
+posterRouter.get("/poster/image/:id", getPosterImage);
 
 export default posterRouter;
