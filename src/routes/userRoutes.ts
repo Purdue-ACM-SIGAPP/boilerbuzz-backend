@@ -6,7 +6,7 @@ import {
   getUserData,
   listUsers,
   updateUserSettings,
-  queryPostersByTags
+  // queryPostersByTags
 } from "../controllers/users/userController";
 
 const router = Router();

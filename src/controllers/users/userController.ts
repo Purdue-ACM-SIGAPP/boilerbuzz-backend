@@ -64,7 +64,7 @@ export const deleteUserData = async (request: Request, response: Response) => {
 
 
 
-async function queryPostersByTags(search_tag: string, page_index: number, page_length: number) {
+export async function queryPostersByTags(search_tag: string, page_index: number, page_length: number) {
   const tagsData = await pool.query('SELECT * FROM tags');
   //TEST: const data = { rows: [{ tag_name: "Test" }, { tag_name: "Another" }, { tag_name: "Sample" }, { tag_name: "Exampleag" }, { tag_name: "Demo" }] };
   const SIM_THRESHOLD = 75;
