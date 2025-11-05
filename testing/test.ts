@@ -52,7 +52,7 @@ async function testClubAPI() {
     async function updateClub(id: number) {
         try {
             const updatedClub = {
-               member_post_permissions: false,
+                member_post_permissions: false,
             };
 
             const response = await fetch(`${baseURL}/club/${id}`, {
@@ -84,17 +84,43 @@ async function testClubAPI() {
         }
     }
 
-    // Run tests
-    console.log('Starting API tests...\n');
+    // // Run tests
+    // console.log('Starting API tests...\n');
 
-    await getAllClubs();
-    const newClub = await createClub();
+    // await getAllClubs();
+    // const newClub = await createClub();
 
-    if (newClub && newClub[0]?.id) {
-        await getClubById(newClub[0].id);
-        await updateClub(newClub[0].id);
-        // await deleteClub(newClub[0].id);
+    // if (newClub && newClub[0]?.id) {
+    //     await getClubById(newClub[0].id);
+    //     await updateClub(newClub[0].id);
+    //     // await deleteClub(newClub[0].id);
+    // }
+
+    async function testQuery() {
+        try {
+            const query = {
+                search_tag: "pd Test Tag",
+
+                page_index: 0,
+                page_length: 10
+            };
+
+            const response = await fetch(`${baseURL}/users/postersByTags`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(query)
+            });
+            console.log('Request body:', JSON.stringify(response));
+            const data = await response.text();
+            console.log('POST /club:', data);
+            return data;
+        } catch (error) {
+            console.error('Error testing query club:', error);
+        }
     }
+    await testQuery();
 }
 
 // Run the test
