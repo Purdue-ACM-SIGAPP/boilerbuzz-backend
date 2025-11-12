@@ -1,9 +1,15 @@
 import { Request, Response } from "express";
-const { getSimilarity } = require('calculate-string-similarity');
 
 import pool from "@/libs/db";
 
 export const listUsers = async (_request: Request, response: Response) => {
+  // #swagger.description = 'Gets a list of all users in the database.'
+  /* #swagger.responses[200] = {
+          description: 'Successful retrieval of user list.',
+  } */
+  /* #swagger.responses[500] = {
+           description: 'Failed to list users.',
+   } */
   try {
     const result = await pool.query("SELECT * FROM Users");
     console.log("Get list of users from database");
@@ -15,6 +21,20 @@ export const listUsers = async (_request: Request, response: Response) => {
 };
 
 export const getUserData = async (request: Request, response: Response) => {
+  // #swagger.description = 'Gets the user data for a specific user ID.'
+  /*  #swagger.parameters['id'] = {
+            in: 'path',
+            description: 'ID of the user to retrieve data for.',
+            required: true,
+            type: 'integer'
+           
+   } */
+  /* #swagger.responses[200] = {
+          description: 'Successful retrieval of user data.',
+  } */
+  /* #swagger.responses[500] = {
+           description: 'Failed to fetch user data.',
+   } */
   try {
     const result = await pool.query(
       "SELECT * FROM UserSettings WHERE userid = $1",
@@ -30,6 +50,13 @@ export const getUserData = async (request: Request, response: Response) => {
 };
 
 export const addUser = async (_request: Request, response: Response) => {
+  // #swagger.description = 'Adds a new user to the database.'
+  /* #swagger.responses[200] = {
+          description: 'Successful addition of new user.',
+  } */
+  /* #swagger.responses[500] = {
+           description: 'Failed to add user data.',
+   } */
   try {
     await pool.query("INSERT INTO Users (userid) VALUES (DEFAULT)");
 
@@ -45,10 +72,37 @@ export const updateUserSettings = async (
 ) => {
   // No need to do anything since there is nothing in the user settings table
   // other than the user ID.
+  // #swagger.description = 'Updates the user settings for a specific user ID.'
+  /*  #swagger.parameters['id'] = {
+            in: 'path',
+            description: 'ID of the user to update settings for.',
+            required: true,
+            type: 'integer'
+   } */
+  /* #swagger.responses[200] = {
+          description: 'Successful update of user settings.',
+  } */
+  /* #swagger.responses[500] = {
+           description: 'Failed to update user settings.',
+   } */
+
   response.status(200);
 };
 
 export const deleteUserData = async (request: Request, response: Response) => {
+  // #swagger.description = 'Deletes all user data for a specific user ID.'
+  /*  #swagger.parameters['id'] = {
+            in: 'path',
+            description: 'ID of the user to delete data for.',
+            required: true,
+            type: 'integer'
+   } */
+  /* #swagger.responses[200] = {
+          description: 'Successful deletion of user data.',
+  } */
+  /* #swagger.responses[500] = {
+           description: 'Failed to delete user data.',
+   } */
   try {
     await pool.query("DELETE FROM UserSettings WHERE userid = $1", [
       request.params.id,
@@ -61,43 +115,3 @@ export const deleteUserData = async (request: Request, response: Response) => {
     response.status(500).json("Failed to delete user data");
   }
 };
-
-
-
-async function queryPostersByTags(search_tag: string, page_index: number, page_length: number) {
-  const tagsData = await pool.query('SELECT * FROM tags');
-  //TEST: const data = { rows: [{ tag_name: "Test" }, { tag_name: "Another" }, { tag_name: "Sample" }, { tag_name: "Exampleag" }, { tag_name: "Demo" }] };
-  const SIM_THRESHOLD = 75;
-  let similar_tags: string[] = [];
-  let similar_tag_ids: number[] = [];
-  tagsData.rows.forEach((tag: { tag_name: string, tag_id: number }) => {
-    const sim = getSimilarity(search_tag, tag.tag_name);
-    if (sim >= SIM_THRESHOLD) {
-      similar_tags.push(tag.tag_name);
-      similar_tag_ids.push(tag.tag_id);
-    }
-  });
-  if (similar_tags.length === 0) {
-    return { posters: [], total_count: 0 };
-  }
-  let posterIdsData = await pool.query(
-    `SELECT DISTINCT p.* FROM PosterTag p
-         WHERE tag_id = ANY($1)
-         LIMIT $2 OFFSET $3`,
-    [similar_tag_ids, page_length, page_index * page_length]
-  );
-  let posterIds = posterIdsData.rows.map((row: { poster_id: number }) => row.poster_id);
-  if (posterIds.length === 0) {
-    return { posters: [], total_count: 0 };
-  }
-  let postersData = await pool.query(
-    `SELECT * FROM Poster
-         WHERE id = ANY($1)`,
-    [posterIds]
-  );
-
-  let posters = postersData.rows;
-
-
-  return posters;
-}
