@@ -2,6 +2,14 @@ import pool from "@/libs/db.js";
 import { Request, Response } from "express";
 
 const getUserSettings = async (_req: Request, res: Response) => {
+  // #swagger.description = 'Retrieve all user settings from the database.'
+
+  /* #swagger.responses[200] = {
+          description: 'User settings retrieved successfully.',
+  } */
+  /* #swagger.responses[500] = {
+           description: 'Failed to fetch user settings.',
+   } */
   try {
     const query = "SELECT * FROM usersettings";
     const result = await pool.query(query);
@@ -15,6 +23,20 @@ const getUserSettings = async (_req: Request, res: Response) => {
 // GET /api/user/settings/:id
 // Given a user id (foreign key), return that user's setting if it exists.
 const createUserSetting = async (_req: Request, res: Response) => {
+  // #swagger.description = 'Create user settings for a given user ID.'
+  /*  #swagger.parameters['id'] = {
+              in: 'body',
+              description: 'ID of the user to create settings for',
+              required: true,
+              schema: { type: 'integer' }
+   } */
+  /* #swagger.responses[200] = {
+          description: 'User settings created successfully.',
+  } */
+  /* #swagger.responses[500] = {
+           description: 'Failed to fetch user settings.',
+   } */
+
   const { id } = _req.body;
   if (!id) {
     return res.status(400).json({ error: "Missing user id in body" });
@@ -31,6 +53,19 @@ const createUserSetting = async (_req: Request, res: Response) => {
 };
 
 const getUserSettingsByUserId = async (_req: Request, res: Response) => {
+  // #swagger.description = 'Create a new club and assign the requesting user as its administrator.'
+  /*  #swagger.parameters['id'] = {
+              in: 'path',
+              description: 'ID of the user to get settings for',
+              required: true,
+              schema: { type: 'integer' }
+   } */
+  /* #swagger.responses[200] = {
+          description: 'User settings retrieved successfully.',
+  } */
+  /* #swagger.responses[500] = {
+           description: 'Failed to fetch user settings.',
+   } */
   const { id } = _req.params;
   if (!id) {
     return res.status(400).json({ error: "Missing user id in params" });
@@ -72,6 +107,19 @@ const getUserSettingsByUserId = async (_req: Request, res: Response) => {
 // };
 
 const deleteUserSetting = async (_req: Request, res: Response) => {
+  // #swagger.description = 'Delete user settings for a given user ID.'
+  /*  #swagger.parameters['id'] = {
+              in: 'path',
+              description: 'ID of the user to delete settings for',
+              required: true,
+              schema: { type: 'integer' }
+   } */
+  /* #swagger.responses[200] = {
+          description: 'User settings deleted successfully.',
+  } */
+  /* #swagger.responses[500] = {
+           description: 'Failed to fetch user settings.',
+   } */
   const { id } = _req.params;
   if (!id) {
     return res.status(400).json({ error: "Missing user id in body" });
