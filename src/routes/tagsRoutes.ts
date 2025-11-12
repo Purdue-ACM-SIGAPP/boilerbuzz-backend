@@ -5,8 +5,7 @@ import {
   addTag,
   updateTag,
   deleteTag,
-  tagPoster,
-  untagPoster
+
 
 } from "@/controllers/tags/tagsController";
 
@@ -18,8 +17,6 @@ tagRouter.get("/tags/:id", getTag);
 tagRouter.post("/tags", addTag);
 tagRouter.put("/tags/:id", updateTag);
 tagRouter.delete("/tags/:id", deleteTag);
-tagRouter.post("/tagPoster/:tagId/:posterId", tagPoster);
-tagRouter.delete("/tagPoster/:tagId/:posterId", untagPoster);
 
 
 
