@@ -8,7 +8,7 @@ import {
 const bookmarkRouter = Router();
 
 bookmarkRouter.post("/userPosterBookmarks", createBookmark);
-bookmarkRouter.get("/userPosterBookmarks", getAllBookmarks);
+bookmarkRouter.get("/userPosterBookmarks/:userId", getAllBookmarks);
 bookmarkRouter.get("/userPosterBookmarks/:userId/:posterId", getBookmark);
 
 export default bookmarkRouter;

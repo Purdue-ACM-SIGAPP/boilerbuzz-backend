@@ -36,11 +36,19 @@ const createBookmark = async (req: Request, res: Response) => {
   }
 }
 
-const getAllBookmarks = async (_req: Request, res: Response) => {
+const getAllBookmarks = async (req: Request, res: Response) => {
   try {
+    const userId = req.params.userId;
+    if (!userId) {
+      return res.status(400).json({
+        error: "Missing required field",
+        details: "userId is required"
+      })
+    }
     console.log("Getting all bookmarks");
     const result = await pool.query(
-      'SELECT * FROM user_poster_bookmark'
+      'SELECT * FROM user_poster_bookmark WHERE user_id = $1',
+      [userId]
     );
     return res.status(200).json({
       success: true,
