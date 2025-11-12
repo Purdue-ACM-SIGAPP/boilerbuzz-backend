@@ -121,6 +121,280 @@
         }
       }
     },
+    "/poster": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "club_id": {
+                  "example": "any"
+                },
+                "user_id": {
+                  "example": "any"
+                },
+                "location": {
+                  "example": "any"
+                },
+                "position": {
+                  "example": "any"
+                },
+                "img_path": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/poster/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "club_id": {
+                  "example": "any"
+                },
+                "user_id": {
+                  "example": "any"
+                },
+                "location": {
+                  "example": "any"
+                },
+                "position": {
+                  "example": "any"
+                },
+                "img_path": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/posters/search": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "search_tag": {
+                  "example": "any"
+                },
+                "page_index": {
+                  "example": "any"
+                },
+                "page_length": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/userClub/create": {
+      "post": {
+        "description": "Create a new club and assign the requesting user as its administrator.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "body",
+            "description": "User ID of the administrator to be assigned to the new club.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created Club and User successfully added as club administrator."
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Failed to create and administrate club."
+          }
+        }
+      }
+    },
+    "/userClub/invite": {
+      "post": {
+        "description": "Invite a user to become an administrator of a specified club.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "body",
+            "description": "User ID of the user to be invited as an administrator.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "clubId",
+            "in": "body",
+            "description": "Club ID of the club for which the user is to be invited as an administrator.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User successfully added as club administrator."
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Failed to invite user as admin."
+          }
+        }
+      }
+    },
+    "/userClub/remove": {
+      "delete": {
+        "description": "Remove a user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "body",
+            "description": "User ID of the administrator to be removed.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "clubId",
+            "in": "body",
+            "description": "Club ID of the club from which the administrator is to be removed.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User successfully removed as club administrator."
+          },
+          "500": {
+            "description": "Failed to remove user as admin."
+          }
+        }
+      }
+    },
     "/user": {
       "get": {
         "description": "",
