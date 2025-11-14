@@ -120,8 +120,8 @@ export const searchPosters = async (req: Request, res: Response) => {
       count++;
       query += ` AND id IN (
         SELECT poster_id FROM PosterTag pt
-        JOIN Tag t ON pt.tag_id = t.id
-        WHERE LOWER(t.name) LIKE LOWER($${count})
+        JOIN tags t ON pt.tag_id = t.id
+        WHERE LOWER(t.tag_name) LIKE LOWER($${count})
       )`;
       values.push(`%${search_tag}%`);
     }
@@ -150,8 +150,8 @@ export const searchPosters = async (req: Request, res: Response) => {
       countParam++;
       countQuery += ` AND id IN (
         SELECT poster_id FROM PosterTag pt
-        JOIN Tag t ON pt.tag_id = t.id
-        WHERE LOWER(t.name) LIKE LOWER($${countParam})
+        JOIN tags t ON pt.tag_id = t.id
+        WHERE LOWER(t.tag_name) LIKE LOWER($${countParam})
       )`;
       countValues.push(`%${search_tag}%`);
     }
