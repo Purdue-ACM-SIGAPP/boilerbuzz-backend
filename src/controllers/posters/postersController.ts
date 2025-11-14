@@ -111,14 +111,10 @@ export const searchPosters = async (req: Request, res: Response) => {
 
     let query = `
       SELECT * FROM Poster
+      WHERE 1=1
     `;
     const values: any[] = [];
     let count = 0;
-
-    console.log("DEBUG - Query:", query);
-    console.log("DEBUG - Values:", values);
-    const debugResult = await pool.query(query, values);
-    console.log("DEBUG - Results:", JSON.stringify(debugResult.rows, null, 2)); 
 
     if (search_tag) {
       count++;
