@@ -38,7 +38,7 @@ const createBookmark = async (req: Request, res: Response) => {
 
 const getAllBookmarks = async (req: Request, res: Response) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.query.userId;
     if (!userId) {
       return res.status(400).json({
         error: "Missing required field",
@@ -67,8 +67,8 @@ const getAllBookmarks = async (req: Request, res: Response) => {
 const getBookmark = async (req: Request, res: Response) => {
   try {
     console.log("Getting bookmark");
-    const userId = req.params.userId;
-    const posterId = req.params.posterId;
+    const userId = req.query.userId;
+    const posterId = req.query.posterId;
     if (!userId) {
       return res.status(400).json({
         message: "Missing required field",
