@@ -10,7 +10,7 @@ import _config from "./config";
 import userClubRouter from "@/routes/userClubRoutes";
 import userSettingsRouter from "./routes/userSettingRoutes";
 import userPosterBookmarkRoutes from "@/routes/userPosterBookmarkRoutes";
-
+import userRouter from "./routes/userRoutes";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "@/docs/swagger.json";
 
@@ -31,6 +31,7 @@ app.use("/api", userSettingsRouter);
 app.use("/api", userClubRouter);
 app.use("/api", userSettingsRouter);
 app.use("/api", userPosterBookmarkRoutes);
+app.use("/api", userRouter);
 
 app.get("/api", (_req, res) => {
   res.status(200).json({ message: "Hello from the server!" });
