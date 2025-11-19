@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS Poster (
     user_id integer not null REFERENCES AppUser(id),
     location text not null,
     position point not null,
-    img_path text not null
+    img_path text not null,
+    date TIMESTAMP not null
 );

@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/Purdue-ACM-SIGAPP/boilerbuzz-backend#readme",
   "dependencies": {
+    "calculate-string-similarity": "^1.0.9",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
