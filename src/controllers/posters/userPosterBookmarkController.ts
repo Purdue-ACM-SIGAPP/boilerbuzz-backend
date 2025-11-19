@@ -99,8 +99,53 @@ const getBookmark = async (req: Request, res: Response) => {
   }
 }
 
+const deleteBookmark = async (req: Request, res: Response) => {
+  try {
+    console.log("Deleting bookmark");
+    const userId = req.query.userId;
+    const posterId = req.query.posterId;
+    if (!userId) {
+      return res.status(400).json({
+        error: "Missing required field",
+        details: "userId is required"
+      })
+    }
+    if (!posterId) {
+      return res.status(400).json({
+        error: "Missing required field",
+        details: "posterId is required"
+      })
+    }
+    const result = await pool.query(
+        'SELECT EXISTS (SELECT 1 FROM user_poster_bookmark WHERE user_id = $1 AND poster_id = $2)',
+        [userId, posterId]
+    )
+    if (!result.rows[0].exists) {
+      return res.status(400).json({
+        error: "Error deleting bookmark",
+        details: "Bookmark doesn't exist"
+      })
+    }
+    await pool.query(
+        'DELETE FROM user_poster_bookmark WHERE user_id = $1 AND poster_id = $2',
+        [userId, posterId]
+    );
+    return res.status(200).json({
+      success: true,
+      message: 'Bookmark deleted successfully'
+    })
+  } catch (error) {
+    return res.status(400).json({
+      error: "Unable to delete bookmark",
+      details: "There was an internal server error while retrieving bookmark. Please try again later.",
+      technical_error: error instanceof Error ? error.message : String(error)
+    });
+  }
+}
+
 export {
   createBookmark,
   getAllBookmarks,
   getBookmark,
+  deleteBookmark,
 }
