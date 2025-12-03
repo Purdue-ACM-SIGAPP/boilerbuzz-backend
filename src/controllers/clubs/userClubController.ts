@@ -3,6 +3,19 @@ import { Request, Response } from "express";
 import pool from "@/libs/db.js";
 
 const createAndAdministrateClub = async (req: Request, res: Response) => {
+    // #swagger.description = 'Create a new club and assign the requesting user as its administrator.'
+    /*  #swagger.parameters['userId'] = {
+                in: 'body',
+                description: 'User ID of the administrator to be assigned to the new club.',
+                required: true,
+                schema: { type: 'integer' }
+     } */
+    /* #swagger.responses[200] = {
+            description: 'Created Club and User successfully added as club administrator.',
+    } */
+    /* #swagger.responses[500] = {
+             description: 'Failed to create and administrate club.',
+     } */
     try {
         console.log("Creating and administering a club...");
         const { userId } = req.body;
@@ -41,6 +54,26 @@ const createAndAdministrateClub = async (req: Request, res: Response) => {
 };
 
 const inviteAdmin = async (req: Request, res: Response) => {
+    // #swagger.description = 'Invite a user to become an administrator of a specified club.'
+    /*  #swagger.parameters['userId'] = {
+                in: 'body',
+                description: 'User ID of the user to be invited as an administrator.',
+                required: true,
+                schema: { type: 'integer' }
+     } */
+    /*  #swagger.parameters['clubId'] = {
+                in: 'body',
+                description: 'Club ID of the club for which the user is to be invited as an administrator.',
+                required: true,
+                schema: { type: 'integer' }
+             
+     } */
+    /* #swagger.responses[200] = {
+            description: 'User successfully added as club administrator.',
+    } */
+    /* #swagger.responses[500] = {
+             description: 'Failed to invite user as admin.',
+     } */
     try {
         console.log("Inviting user as admin...");
         const { userId, clubId } = req.body;
@@ -86,6 +119,26 @@ const inviteAdmin = async (req: Request, res: Response) => {
 }
 
 const removeAdmin = async (req: Request, res: Response) => {
+    // #swagger.description = 'Remove a user's administrator privileges from a specified club.'
+    /*  #swagger.parameters['userId'] = {
+                in: 'body',
+                description: 'User ID of the administrator to be removed.',
+                required: true,
+                schema: { type: 'integer' }
+     } */
+    /*  #swagger.parameters['clubId'] = {
+                in: 'body',
+                description: 'Club ID of the club from which the administrator is to be removed.',
+                required: true, 
+                schema: { type: 'integer' }
+             
+     } */
+    /* #swagger.responses[200] = {
+            description: 'User successfully removed as club administrator.',
+    } */
+    /* #swagger.responses[500] = {
+             description: 'Failed to remove user as admin.',
+     } */
     try {
         console.log("Removing user as admin...");
 
