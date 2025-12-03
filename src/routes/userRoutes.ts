@@ -6,15 +6,13 @@ import {
   getUserData,
   listUsers,
   updateUserSettings,
-  queryPostersByTags
 } from "../controllers/users/userController";
 
-const router = Router();
-export default router;
+const userRouter = Router();
 
-router.get("/user", listUsers);
-router.get("/user/:id", getUserData);
-router.post("/user", addUser);
-router.post("/user/:id", updateUserSettings);
-router.delete("/user/:id", deleteUserData);
-
+userRouter.get("/user", listUsers);
+userRouter.get("/user/:id", getUserData);
+userRouter.post("/user", addUser);
+userRouter.post("/user/:id", updateUserSettings);
+userRouter.delete("/user/:id", deleteUserData);
+export default userRouter;
