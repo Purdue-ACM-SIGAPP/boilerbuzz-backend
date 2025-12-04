@@ -11,7 +11,7 @@ const getPosters = async (_req: Request, res: Response) => {
       error: "Failed to fetch posters",
       details:
         "There was an internal server error while retrieving all posters. Please try again later.",
-      technical_error: err.message,
+      technical_error: err instanceof Error ? err.message : 'Unknown error',
     });
   }
 };
@@ -28,7 +28,7 @@ const getPoster = async (_req: Request, res: Response) => {
       error: "Failed to fetch poster",
       details:
         "There was an internal server error while retrieving the poster. Please try again later.",
-      technical_error: err.message,
+      technical_error: err instanceof Error ? err.message : 'Unknown error',
     });
   }
 };
@@ -53,7 +53,7 @@ const addPoster = async (_req: Request, res: Response) => {
       error: "Failed to add poster",
       details:
         "There was an internal server error while adding the poster. Please try again later.",
-      technical_error: err.message,
+      technical_error: err instanceof Error ? err.message : 'Unknown error',
     });
   }
 };
@@ -79,7 +79,7 @@ const updatePoster = async (_req: Request, res: Response) => {
       error: "Failed to update poster",
       details:
         "There was an internal server error while updating the poster. Please try again later.",
-      technical_error: err.message,
+      technical_error: err instanceof Error ? err.message : 'Unknown error',
     });
   }
 };
@@ -96,7 +96,7 @@ const deletePoster = async (_req: Request, res: Response) => {
       error: "Failed to delete poster",
       details:
         "There was an internal server error while deleting the poster. Please try again later.",
-      technical_error: err.message,
+      technical_error: err instanceof Error ? err.message : 'Unknown error',
     });
   }
 };
